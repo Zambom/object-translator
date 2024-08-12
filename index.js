@@ -1,10 +1,18 @@
 import { isOfType, objectHasProperty, replaceValues, validateObject } from "./utils"
 
+/**
+ * Replace properties of an object for the new ones
+ * @param {Object} targetObj // Object that have the properties changed
+ * @param {Object} mappings // Object that holds the mappings to be made
+ */
 function translateProperties (targetObj, mappings) {
+  // Validating parameters
   validateObject(targetObj)
   validateObject(mappings)
 
+  // Passing through all properties in the mappings
   Object.keys(mappings).forEach(prop => {
+    // Only change if property exists in the target
     if (objectHasProperty(targetObj, prop)) {
       if (isOfType(mappings[prop], 'string')) {
         const propValue = Object.getOwnPropertyDescriptor(targetObj, prop)
@@ -16,7 +24,7 @@ function translateProperties (targetObj, mappings) {
         const propValue = Object.getOwnPropertyDescriptor(targetObj, prop)
         const newKey = mappings[prop].keyName
 
-        if (isOfType(propValue.valule, 'array')) {
+        if (isOfType(propValue.value, 'array')) {
           if (isOfType(mappings[prop].children, 'array')) {
             mappings[prop].children.forEach((el, index) => {
               const itemIndex = el.itemIndex || index
@@ -39,11 +47,18 @@ function translateProperties (targetObj, mappings) {
     }
   })
 }
-  
+
+/**
+ * Replace values of an object for new ones
+ * @param {*} targetObj // Object that have the values changed
+ * @param {*} mappings Object that holds the mappings to be made
+ */
 function translateValues (targetObj, mappings) {
+  // Validating parameters
   validateObject(targetObj)
   validateObject(mappings)
 
+  // Passing through all properties in the target object
   Object.keys(targetObj).forEach(prop => {
     const propValue = targetObj[prop]
 
