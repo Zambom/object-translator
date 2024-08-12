@@ -4,7 +4,7 @@
  * @param {String} targetType 
  * @returns {boolean}
  */
-export function isOfType (element, targetType) {
+function isOfType (element, targetType) {
   if (targetType === 'array') {
     return Array.isArray(element)
   }
@@ -16,12 +16,12 @@ export function isOfType (element, targetType) {
  * Check if object passed is really an object
  * @param {Object} object 
  */
-export function validateObject (object) {
+function validateObject (object) {
   if (Array.isArray(object)) {
     throw new Error("Invalid property type. 'Array' passed")
   }
 
-  if (!isOfType(mappings, 'object')) {
+  if (!isOfType(object, 'object')) {
     throw new Error(`Invalid property type. '${typeof object}' passed`)
   }
 }
@@ -32,7 +32,7 @@ export function validateObject (object) {
  * @param {String} prop 
  * @returns {boolean}
  */
-export function objectHasProperty (object, prop) {
+function objectHasProperty (object, prop) {
   return Object.prototype.hasOwnProperty.call(object, prop)
 }
 
@@ -43,7 +43,7 @@ export function objectHasProperty (object, prop) {
  * @param {String} prop // Property that holds the value to be change
  * @returns // The new value of the property
  */
-export function replaceValues (mappedValue, originalValue, prop) {
+function replaceValues (mappedValue, originalValue, prop) {
   if (isOfType(mappedValue, 'object')) {
     const exclude = mappedValue?.exclude
 
@@ -59,4 +59,11 @@ export function replaceValues (mappedValue, originalValue, prop) {
   }
 
   return originalValue
+}
+
+module.exports = {
+  isOfType,
+  validateObject,
+  objectHasProperty,
+  replaceValues
 }

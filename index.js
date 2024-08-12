@@ -1,4 +1,4 @@
-import { isOfType, objectHasProperty, replaceValues, validateObject } from "./utils"
+const { isOfType, objectHasProperty, replaceValues, validateObject } = require("./utils")
 
 /**
  * Replace properties of an object for the new ones
@@ -31,7 +31,7 @@ function translateProperties (targetObj, mappings) {
 
               translateProperties(propValue.value[itemIndex], el.props)
             })
-          } else if (isOfType(mapping[prop].children, 'object')) {
+          } else if (isOfType(mappings[prop].children, 'object')) {
             propValue.value.forEach(item => {
               translateProperties(item, mappings[prop].children)
             })
@@ -66,10 +66,8 @@ function translateValues (targetObj, mappings) {
       if (objectHasProperty(mappings, propValue)) {
         targetObj[prop] = replaceValues(mappings[propValue], propValue, prop)
       }
-    } else if (isOfType(propValue, 'object')) {
-      translateValues(propValue, mappings)
     } else if (isOfType(propValue, 'array')) {
-      targetObj = propValue.map(el => {
+      targetObj[prop] = propValue.map(el => {
         if (isOfType(el, 'string')) {
           if (objectHasProperty(mappings, el)) {
             return replaceValues(mappings[el], el, prop)
@@ -80,6 +78,8 @@ function translateValues (targetObj, mappings) {
 
         return el
       })
+    } else if (isOfType(propValue, 'object')) {
+      translateValues(propValue, mappings)
     }
   })
 }
