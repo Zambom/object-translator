@@ -10,7 +10,7 @@ npm i object-translator
 
 ### For properties
 
-Import the pachage
+Import the package
 
 ```js
 import { translateProperties } from 'object-translator'
