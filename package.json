@@ -1,6 +1,6 @@
 {
   "name": "object-translator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple package to easily translate object keys and values",
   "main": "index.js",
   "scripts": {

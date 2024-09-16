@@ -62,31 +62,33 @@ function translateValues (targetObj, mappings) {
   Object.keys(targetObj).forEach(prop => {
     const propValue = targetObj[prop]
 
-    if (isOfType(propValue, 'string')) {
-      if (objectHasProperty(mappings, propValue)) {
-        targetObj[prop] = replaceValues(mappings[propValue], propValue, prop)
-      }
-    } else if (isOfType(propValue, 'array')) {
-      targetObj[prop] = propValue.map(el => {
-        if (isOfType(el, 'string')) {
-          if (objectHasProperty(mappings, el)) {
-            return replaceValues(mappings[el], el, prop)
-          }
-        } else if (isOfType(el, 'object')) {
-          translateValues(el, mappings)
+    if (propValue) {
+      if (isOfType(propValue, 'string')) {
+        if (objectHasProperty(mappings, propValue)) {
+          targetObj[prop] = replaceValues(mappings[propValue], propValue, prop)
         }
+      } else if (isOfType(propValue, 'array')) {
+        targetObj[prop] = propValue.map(el => {
+          if (isOfType(el, 'string')) {
+            if (objectHasProperty(mappings, el)) {
+              return replaceValues(mappings[el], el, prop)
+            }
+          } else if (isOfType(el, 'object')) {
+            translateValues(el, mappings)
+          }
 
-        return el
-      })
-    } else if (isOfType(propValue, 'object')) {
-      translateValues(propValue, mappings)
+          return el
+        })
+      } else if (isOfType(propValue, 'object')) {
+        translateValues(propValue, mappings)
+      }
     }
   })
 }
 
 function translate (targetObj, propertiesMappings, valuesMappings) {
-  this.translateProperties(targetObj, propertiesMappings)
-  this.translateValues(targetObj, valuesMappings)
+  translateProperties(targetObj, propertiesMappings)
+  translateValues(targetObj, valuesMappings)
 }
 
 module.exports = {
