@@ -6,6 +6,11 @@ const { isOfType, objectHasProperty, replaceValues, validateObject } = require("
  * @param {Object} mappings // Object that holds the mappings to be made
  */
 function translateProperties (targetObj, mappings) {
+  // When one of the parameters are null or undefined, do nothing
+  if (!targetObj || !mappings) {
+    return
+  }
+
   // Validating parameters
   validateObject(targetObj)
   validateObject(mappings)
@@ -54,6 +59,11 @@ function translateProperties (targetObj, mappings) {
  * @param {*} mappings Object that holds the mappings to be made
  */
 function translateValues (targetObj, mappings) {
+  // When one of the parameters are null or undefined, do nothing
+  if (!targetObj || !mappings) {
+    return
+  }
+  
   // Validating parameters
   validateObject(targetObj)
   validateObject(mappings)
