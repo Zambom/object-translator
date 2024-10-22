@@ -9,6 +9,10 @@ function isOfType (element, targetType) {
     return Array.isArray(element)
   }
 
+  if (targetType === 'object') {
+    return typeof element === targetType && element !== null
+  }
+
   return typeof element === targetType
 }
 
@@ -33,6 +37,10 @@ function validateObject (object) {
  * @returns {boolean}
  */
 function objectHasProperty (object, prop) {
+  if (!object) {
+    return false
+  }
+
   return Object.prototype.hasOwnProperty.call(object, prop)
 }
 
